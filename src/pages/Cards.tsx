@@ -22,7 +22,7 @@ export default function Cards() {
 
   return (
     <div>
-      <h1 style={{ marginBottom: 6 }}>DodoCard</h1>
+      <h1 style={{ marginBottom: 6 }}>DotoCard</h1>
       <p className="muted" style={{ marginBottom: 24 }}>
         Gestion des cartes d&apos;accès QR : signalement de perte (révocation &lt; 1 min), réémission et
         téléchargement PDF.
@@ -89,7 +89,7 @@ export default function Cards() {
                 className="btn ghost sm"
                 disabled={reissue.isPending}
                 onClick={() => {
-                  if (window.confirm("Réémettre une nouvelle DodoCard ? L'ancienne sera invalidée.")) {
+                  if (window.confirm("Réémettre une nouvelle DotoCard ? L'ancienne sera invalidée.")) {
                     reissue.mutate(c.id);
                   }
                 }}

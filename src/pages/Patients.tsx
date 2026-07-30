@@ -41,7 +41,7 @@ export default function Patients() {
       <div className="row" style={{ justifyContent: "space-between", marginBottom: 20 }}>
         <div>
           <h1>Patients</h1>
-          <p className="muted">Enregistrement des patients + émission automatique d'une DodoCard.</p>
+          <p className="muted">Enregistrement des patients + émission automatique d'une DotoCard.</p>
         </div>
         <button className="btn" onClick={() => setModal(true)}>+ Enregistrer un patient</button>
       </div>
@@ -129,7 +129,7 @@ export default function Patients() {
             {err && <p style={{ color: "var(--emergency)", marginBottom: 10 }}>{err}</p>}
             <div className="row" style={{ justifyContent: "flex-end", gap: 8 }}>
               <button className="btn ghost" onClick={() => setModal(false)}>Annuler</button>
-              <button className="btn" onClick={save} disabled={!form.npi || !form.nom}>Enregistrer + DodoCard</button>
+              <button className="btn" onClick={save} disabled={!form.npi || !form.nom}>Enregistrer + DotoCard</button>
             </div>
           </div>
         </div>

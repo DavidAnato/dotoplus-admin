@@ -47,10 +47,10 @@ const CARD_COLORS: Record<string, string> = {
 const ACTION_LABELS: Record<string, string> = {
   login: "Connexion",
   logout: "Déconnexion",
-  emettre_dodocard: "Émission DodoCard",
-  revoquer_dodocard: "Révocation DodoCard",
-  reemettre_dodocard: "Réémission DodoCard",
-  scan_dodocard: "Scan DodoCard",
+  emettre_dodocard: "Émission DotoCard",
+  revoquer_dodocard: "Révocation DotoCard",
+  reemettre_dodocard: "Réémission DotoCard",
+  scan_dodocard: "Scan DotoCard",
   consulter_dossier: "Consultation dossier",
   recherche_patient: "Recherche patient",
 };
@@ -233,7 +233,7 @@ export default function Dashboard() {
           <p className="dash-kicker">Centre de contrôle</p>
           <h1>Tableau de bord</h1>
           <p className="muted" style={{ marginTop: 6, maxWidth: 560 }}>
-            Vue d&apos;ensemble de l&apos;écosystème DOTO+ — comptes, DodoCards, structures et
+            Vue d&apos;ensemble de l&apos;écosystème DOTO+ — comptes, DotoCards, structures et
             activité clinique.
             {fromCache ? " (cache hors ligne)" : ""}
           </p>
@@ -247,7 +247,7 @@ export default function Dashboard() {
       <section className="kpi-grid">
         <Kpi label="Professionnels" value={s.professionnels ?? 0} icon={Users} tone="navy" hint="comptes pro" onClick={() => nav("/comptes")} delay={60} />
         <Kpi label="Patients" value={s.patients ?? 0} icon={UserRound} tone="blue" onClick={() => nav("/patients")} delay={90} />
-        <Kpi label="DodoCards actives" value={s.dodocards_actives ?? 0} icon={IdCard} tone="teal" onClick={() => nav("/dodocards")} delay={120} />
+        <Kpi label="DotoCards actives" value={s.dodocards_actives ?? 0} icon={IdCard} tone="teal" onClick={() => nav("/dotocards")} delay={120} />
         <Kpi label="Structures" value={s.structures ?? 0} icon={Building2} tone="navy" onClick={() => nav("/structures")} delay={150} />
         <Kpi
           label="Consultations (7 j)"
@@ -258,7 +258,7 @@ export default function Dashboard() {
           onClick={() => nav("/patients")}
           delay={180}
         />
-        <Kpi label="Cartes révoquées" value={s.dodocards_revoquees ?? 0} icon={Ban} tone="red" onClick={() => nav("/dodocards")} delay={210} />
+        <Kpi label="Cartes révoquées" value={s.dodocards_revoquees ?? 0} icon={Ban} tone="red" onClick={() => nav("/dotocards")} delay={210} />
         <Kpi
           label="Échecs auth (7 j)"
           value={s.echec_auth_7j ?? 0}
@@ -273,7 +273,7 @@ export default function Dashboard() {
 
       <section className="quick-actions stagger" style={{ animationDelay: "300ms" }}>
         <Qa to="/comptes" icon={UserPlus}>Créer un pro</Qa>
-        <Qa to="/dodocards" icon={IdCard}>Émettre une DodoCard</Qa>
+        <Qa to="/dotocards" icon={IdCard}>Émettre une DotoCard</Qa>
         <Qa to="/audit" icon={Shield}>Journal d&apos;audit</Qa>
         <Qa to="/structures" icon={Building2}>Structures</Qa>
         <Qa to="/patients" icon={UserRound}>Patients</Qa>
@@ -343,7 +343,7 @@ export default function Dashboard() {
         <div className="card dash-panel stagger" style={{ animationDelay: "360ms" }}>
           <div className="panel-head">
             <div>
-              <h3>DodoCards — statuts</h3>
+              <h3>DotoCards — statuts</h3>
               <p className="small muted">
                 {s.dodocards_total ?? 0} carte(s) au total · {s.ordonnances_actives ?? 0} ordonnance(s)
                 active(s)
@@ -363,7 +363,7 @@ export default function Dashboard() {
                     paddingAngle={2}
                     stroke="var(--surface)"
                     strokeWidth={2}
-                    onClick={() => nav("/dodocards")}
+                    onClick={() => nav("/dotocards")}
                     style={{ cursor: "pointer" }}
                   >
                     {cardPie.map((entry) => (
@@ -385,8 +385,8 @@ export default function Dashboard() {
                 <li
                   key={c.statut}
                   className="clickable-row"
-                  onClick={() => nav("/dodocards")}
-                  onKeyDown={(e) => e.key === "Enter" && nav("/dodocards")}
+                  onClick={() => nav("/dotocards")}
+                  onKeyDown={(e) => e.key === "Enter" && nav("/dotocards")}
                   role="link"
                   tabIndex={0}
                 >
