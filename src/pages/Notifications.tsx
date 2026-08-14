@@ -1,8 +1,11 @@
 /** Notifications admin + aperçu demandes d'accès. */
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { api } from "../api";
+import { notificationPath } from "../notifRoutes";
 
 export default function NotificationsPage() {
+  const nav = useNavigate();
   const { data: notifs = [], isLoading } = useQuery({
     queryKey: ["admin-notifications"],
     queryFn: () => api.notifications(),
@@ -38,7 +41,11 @@ export default function NotificationsPage() {
               {notifs.slice(0, 30).map((n: any) => (
                 <li
                   key={n.id}
-                  style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}
+                  style={{ padding: "10px 0", borderBottom: "1px solid var(--border)", cursor: "pointer" }}
+                  onClick={() => {
+                    if (!n.read_at && !n.is_read) void api.markNotifRead(n.id);
+                    nav(notificationPath(n));
+                  }}
                 >
                   <strong style={{ fontSize: 13 }}>{n.title}</strong>
                   <div className="muted small">{n.body}</div>

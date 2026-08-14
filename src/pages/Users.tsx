@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useCreateUser,
   useToggleUser,
@@ -8,16 +8,38 @@ import {
 import { Avatar } from "../components/Avatar";
 import { api } from "../api";
 import { PhoneInput } from "../components/PhoneInput";
+import { HospitalPicker } from "../components/HospitalPicker";
 
 const ROLES = [
   { v: "medecin", l: "Médecin" },
   { v: "infirmier", l: "Infirmier" },
   { v: "pharmacien", l: "Pharmacien" },
   { v: "laborantin", l: "Laborantin" },
+  { v: "ambulancier", l: "Ambulancier" },
+  { v: "receptionniste", l: "Réceptionniste" },
   { v: "admin", l: "Admin structure" },
 ];
 
-const empty = { username: "", first_name: "", last_name: "", email: "", telephone: "", role: "medecin", password: "" };
+const NEED_HOSPITALS = new Set([
+  "medecin",
+  "infirmier",
+  "pharmacien",
+  "laborantin",
+  "ambulancier",
+  "receptionniste",
+]);
+
+const empty = {
+  username: "",
+  first_name: "",
+  last_name: "",
+  email: "",
+  telephone: "",
+  role: "medecin",
+  password: "",
+  structure_ids: [] as number[],
+  structure_principale: "" as number | "",
+};
 
 export default function Users() {
   const { data: users = [], refetch } = useUsers();
@@ -29,15 +51,41 @@ export default function Users() {
   const [form, setForm] = useState<any>(empty);
   const [err, setErr] = useState("");
   const [photoBusy, setPhotoBusy] = useState(false);
+  const [hospitals, setHospitals] = useState<any[]>([]);
+
+  useEffect(() => {
+    api
+      .hospitals()
+      .then((r: any) => setHospitals(r.structures || []))
+      .catch(() => setHospitals([]));
+  }, []);
 
   const save = async () => {
     setErr("");
+    if (NEED_HOSPITALS.has(form.role)) {
+      if (!form.structure_ids?.length) {
+        setErr("Choisissez au moins un hôpital.");
+        return;
+      }
+      if (!form.structure_principale) {
+        setErr("Désignez l'hôpital principal.");
+        return;
+      }
+    }
     try {
-      await createUser.mutateAsync(form);
+      await createUser.mutateAsync({
+        ...form,
+        structure_principale: form.structure_principale || null,
+      });
       setModal(false);
       setForm(empty);
     } catch (e: any) {
-      setErr(JSON.stringify(e?.data) || "Erreur");
+      setErr(
+        e?.data?.structure_ids?.[0] ||
+          e?.data?.structure_principale?.[0] ||
+          JSON.stringify(e?.data) ||
+          "Erreur"
+      );
     }
   };
 
@@ -191,6 +239,18 @@ export default function Users() {
               <label className="label">Mot de passe</label>
               <input className="input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
             </div>
+            {NEED_HOSPITALS.has(form.role) ? (
+              <div className="field" style={{ marginTop: 12 }}>
+                <label className="label">Hôpitaux rattachés</label>
+                <HospitalPicker
+                  hospitals={hospitals}
+                  pickedIds={form.structure_ids || []}
+                  principalId={form.structure_principale || ""}
+                  onChangePicked={(ids) => setForm({ ...form, structure_ids: ids })}
+                  onChangePrincipal={(id) => setForm({ ...form, structure_principale: id })}
+                />
+              </div>
+            ) : null}
             {err && <p style={{ color: "var(--emergency)", marginBottom: 10 }}>{err}</p>}
             <div className="row" style={{ justifyContent: "flex-end", gap: 8 }}>
               <button className="btn ghost" onClick={() => setModal(false)}>Annuler</button>

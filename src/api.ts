@@ -159,6 +159,7 @@ export const api = {
 
   users: () => request("/api/auth/users/").then(list),
   createUser: (b: any) => request("/api/auth/users/", { method: "POST", body: JSON.stringify(b) }),
+  hospitals: () => request("/api/auth/hospitals/"),
   updateUser: (id: number, b: any) => request(`/api/auth/users/${id}/`, { method: "PATCH", body: JSON.stringify(b) }),
   async uploadUserPhoto(id: number, file: File) {
     const form = new FormData();
