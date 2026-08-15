@@ -21,6 +21,7 @@ import { useAuth } from "./auth";
 import { useAppStore } from "./store/appStore";
 import { api } from "./api";
 import { PinSessionGate } from "./components/PinSessionGate";
+import { useAdminSSE } from "./hooks";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import UsersPage from "./pages/Users";
@@ -149,6 +150,7 @@ export default function App() {
   const setSessionLocked = useAppStore((s) => s.setSessionLocked);
   const setNeedsPinSetup = useAppStore((s) => s.setNeedsPinSetup);
   const setUser = useAppStore((s) => s.setUser);
+  useAdminSSE(!!user);
   const [pinError, setPinError] = useState("");
   const [pinBusy, setPinBusy] = useState(false);
   const pinBusyRef = useRef(false);
