@@ -1,3 +1,5 @@
+import { PIN_ERROR, PIN_REGEX } from "./constants";
+
 const API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://doto-backend-71tk.onrender.com");
@@ -128,12 +130,14 @@ export const api = {
     email?: string;
   }) => request("/api/auth/me/", { method: "PATCH", body: JSON.stringify(b) }),
   async setPin(pin: string, oldPin?: string) {
+    if (!PIN_REGEX.test(pin)) throw Object.assign(new Error(PIN_ERROR), { data: { detail: PIN_ERROR } });
     return request("/api/auth/set-pin/", {
       method: "POST",
       body: JSON.stringify({ pin, old_pin: oldPin || "" }),
     });
   },
   async verifyPin(pin: string) {
+    if (!PIN_REGEX.test(pin)) throw Object.assign(new Error(PIN_ERROR), { data: { detail: PIN_ERROR } });
     return request("/api/auth/verify-pin/", {
       method: "POST",
       body: JSON.stringify({ pin }),

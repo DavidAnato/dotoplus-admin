@@ -20,6 +20,7 @@ import {
 import { useAuth } from "./auth";
 import { useAppStore } from "./store/appStore";
 import { api } from "./api";
+import { PIN_ERROR, PIN_REGEX } from "./constants";
 import { PinSessionGate } from "./components/PinSessionGate";
 import { useAdminSSE } from "./hooks";
 import Login from "./pages/Login";
@@ -188,6 +189,10 @@ export default function App() {
 
   const handleSetupPin = async (pin: string) => {
     if (pinBusyRef.current) return;
+    if (!PIN_REGEX.test(pin)) {
+      setPinError(PIN_ERROR);
+      return;
+    }
     pinBusyRef.current = true;
     setPinBusy(true);
     setPinError("");
@@ -210,6 +215,10 @@ export default function App() {
 
   const handleUnlock = async (pin: string) => {
     if (pinBusyRef.current) return;
+    if (!PIN_REGEX.test(pin)) {
+      setPinError(PIN_ERROR);
+      return;
+    }
     pinBusyRef.current = true;
     setPinBusy(true);
     setPinError("");
