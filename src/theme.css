@@ -99,6 +99,7 @@ button { font-family: inherit; cursor: pointer; }
   border: 1px solid rgba(48, 185, 193, 0.35);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+  padding: 7px;
 }
 .brand .mark img,
 .brand .mark svg { width: 100%; height: 100%; object-fit: contain; display: block; }

@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "../auth";
 import { Avatar } from "./Avatar";
-import { BrandMark } from "./BrandMark";
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
 type NavGroup = { label: string; items: NavItem[] };
@@ -88,7 +87,7 @@ export function Sidebar({
     <aside className={"sidebar" + (mobileOpen ? " is-open" : "")} aria-label="Navigation admin">
       <div className="brand">
         <div className="mark">
-          <BrandMark size={36} />
+          <img src="/logo-mark.png" alt="" width={36} height={36} />
         </div>
         <div className="brand-text">
           <b>DotoPlus Admin</b>
