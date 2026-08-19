@@ -1,4 +1,4 @@
-/** Deep-link notifications admin — aligné sur core/contracts.py */
+/** Deep-link notifications admin - aligné sur core/contracts.py */
 export function notificationPath(n: {
   type?: string;
   payload?: Record<string, unknown> | null;

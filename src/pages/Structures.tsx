@@ -50,7 +50,7 @@ export default function Structures() {
               <tr key={s.id}>
                 <td style={{ fontWeight: 600 }}>{s.nom}</td>
                 <td>{s.type_label}</td>
-                <td>{s.localisation || "—"}</td>
+                <td>{s.localisation || "-"}</td>
                 <td className="mono">{s.code_structure}</td>
                 <td>{s.nb_professionnels}</td>
                 <td>

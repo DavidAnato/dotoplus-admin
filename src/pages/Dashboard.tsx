@@ -224,7 +224,7 @@ export default function Dashboard() {
 
   const generated = s.genere_le
     ? new Date(s.genere_le).toLocaleString("fr-FR")
-    : "—";
+    : "-";
 
   return (
     <div className="dash page-enter">
@@ -233,7 +233,7 @@ export default function Dashboard() {
           <p className="dash-kicker">Centre de contrôle</p>
           <h1>Tableau de bord</h1>
           <p className="muted" style={{ marginTop: 6, maxWidth: 560 }}>
-            Vue d&apos;ensemble de l&apos;écosystème DOTO+ — comptes, DotoCards, structures et
+            Vue d&apos;ensemble de l&apos;écosystème DOTO+ - comptes, DotoCards, structures et
             activité clinique.
             {fromCache ? " (cache hors ligne)" : ""}
           </p>
@@ -283,7 +283,7 @@ export default function Dashboard() {
         <div className="card dash-panel stagger" style={{ animationDelay: "320ms" }}>
           <div className="panel-head">
             <div>
-              <h3>Consultations — 30 jours</h3>
+              <h3>Consultations - 30 jours</h3>
               <p className="small muted">
                 Total période · {s.consultations_30j ?? 0} · cumul plateforme · {s.consultations ?? 0}
               </p>
@@ -343,7 +343,7 @@ export default function Dashboard() {
         <div className="card dash-panel stagger" style={{ animationDelay: "360ms" }}>
           <div className="panel-head">
             <div>
-              <h3>DotoCards — statuts</h3>
+              <h3>DotoCards - statuts</h3>
               <p className="small muted">
                 {s.dodocards_total ?? 0} carte(s) au total · {s.ordonnances_actives ?? 0} ordonnance(s)
                 active(s)
@@ -465,7 +465,7 @@ export default function Dashboard() {
                   <div>
                     <strong>{st.nom}</strong>
                     <div className="small muted">
-                      {st.localisation || "—"} · {st.code_structure || st.type}
+                      {st.localisation || "-"} · {st.code_structure || st.type}
                     </div>
                   </div>
                   <span className="pill blue">{st.type}</span>
@@ -479,7 +479,7 @@ export default function Dashboard() {
       <div className="card dash-panel stagger" style={{ marginTop: 16, animationDelay: "480ms" }}>
         <div className="panel-head">
           <div>
-            <h3>Activité récente — audit</h3>
+            <h3>Activité récente - audit</h3>
             <p className="small muted">
               {s.evenements_audit ?? 0} événement(s) · dernières actions tracées
             </p>
@@ -503,7 +503,7 @@ export default function Dashboard() {
               {(s.audit_recent || []).length === 0 ? (
                 <tr>
                   <td colSpan={5} className="muted">
-                    Aucun événement d&apos;audit pour l&apos;instant — les actions apparaîtront ici.
+                    Aucun événement d&apos;audit pour l&apos;instant - les actions apparaîtront ici.
                   </td>
                 </tr>
               ) : (
@@ -518,14 +518,14 @@ export default function Dashboard() {
                     <td className="small">
                       {new Date(l.timestamp).toLocaleString("fr-FR")}
                     </td>
-                    <td className="mono">{l.username || "—"}</td>
+                    <td className="mono">{l.username || "-"}</td>
                     <td>
                       <span className="pill grey">
                         {ACTION_LABELS[l.action] || l.action}
                       </span>
                     </td>
-                    <td className="mono small">{l.patient_npi || "—"}</td>
-                    <td className="mono small">{l.ip || "—"}</td>
+                    <td className="mono small">{l.patient_npi || "-"}</td>
+                    <td className="mono small">{l.ip || "-"}</td>
                   </tr>
                 ))
               )}

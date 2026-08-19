@@ -27,7 +27,7 @@ export function toE164Bj(raw: string): string {
   return `${BJ} ${formatNational(nat)}`.trim();
 }
 
-export function displayPhoneBj(raw: string, fallback = "—"): string {
+export function displayPhoneBj(raw: string, fallback = "-"): string {
   const nat = nationalDigits(raw);
   if (!nat) return fallback;
   return `${BJ} ${formatNational(nat)}`;
@@ -74,7 +74,7 @@ export function PhoneInput({
           aria-label={`${label}, indicatif Bénin ${BJ}`}
         />
       </div>
-      <p className="phone-hint">Indicatif Bénin prérempli — saisissez uniquement le numéro local.</p>
+      <p className="phone-hint">Indicatif Bénin prérempli - saisissez uniquement le numéro local.</p>
     </div>
   );
 }

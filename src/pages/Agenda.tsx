@@ -191,7 +191,7 @@ export default function Agenda() {
                 value={form.structure}
                 onChange={(e) => setForm({ ...form, structure: e.target.value })}
               >
-                <option value="">—</option>
+                <option value="">-</option>
                 {structures.map((s: any) => (
                   <option key={s.id} value={s.id}>
                     {s.nom}
@@ -259,14 +259,14 @@ export default function Agenda() {
                           hour: "2-digit",
                           minute: "2-digit",
                         })
-                      : "—"}
+                      : "-"}
                   </td>
                   <td>
                     <div style={{ fontWeight: 600 }}>{a.patient_name}</div>
                     <div className="small muted mono">{a.patient_npi}</div>
                   </td>
-                  <td>{a.structure_nom || "—"}</td>
-                  <td>{a.motif || "—"}</td>
+                  <td>{a.structure_nom || "-"}</td>
+                  <td>{a.motif || "-"}</td>
                   <td>
                     <span className="pill">{a.statut_label || a.statut}</span>
                   </td>
@@ -290,7 +290,7 @@ export default function Agenda() {
                           </button>
                         </>
                       ) : (
-                        <span className="small muted">—</span>
+                        <span className="small muted">-</span>
                       )}
                     </div>
                   </td>

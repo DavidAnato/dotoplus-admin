@@ -39,6 +39,13 @@ const empty = {
   password: "",
   structure_ids: [] as number[],
   structure_principale: "" as number | "",
+  type_exercice: "etablissement_sante",
+  ville_exercice: "",
+  nom_etablissement: "",
+  numero_autorisation: "",
+  numero_ordre: "",
+  email_pro: "",
+  ligne_pro: "",
 };
 
 export default function Users() {
@@ -133,7 +140,7 @@ export default function Users() {
                   <Avatar src={u.photo_url} name={u.full_name || u.username} size={32} />
                 </td>
                 <td className="mono">{u.username}</td>
-                <td>{u.full_name || "—"}</td>
+                <td>{u.full_name || "-"}</td>
                 <td><span className="pill blue">{u.role_label}</span></td>
                 <td>
                   {u.is_locked ? (
@@ -177,11 +184,11 @@ export default function Users() {
       {detail && (
         <div className="modal-bg" onClick={() => setDetail(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ marginBottom: 16 }}>Compte — {detail.username}</h2>
+            <h2 style={{ marginBottom: 16 }}>Compte - {detail.username}</h2>
             <div className="row" style={{ gap: 16, marginBottom: 16, alignItems: "center" }}>
               <Avatar src={detail.photo_url} name={detail.full_name || detail.username} size={72} />
               <div>
-                <div style={{ fontWeight: 700 }}>{detail.full_name || "—"}</div>
+                <div style={{ fontWeight: 700 }}>{detail.full_name || "-"}</div>
                 <div className="muted">{detail.role_label}</div>
                 <div className="muted small">{detail.email || detail.telephone || ""}</div>
                 <label className="btn ghost sm" style={{ marginTop: 8, cursor: "pointer" }}>
@@ -240,7 +247,45 @@ export default function Users() {
               <input className="input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
             </div>
             {NEED_HOSPITALS.has(form.role) ? (
-              <div className="field" style={{ marginTop: 12 }}>
+              <>
+                <div className="grid cols-2">
+                  <div className="field">
+                    <label className="label">Type</label>
+                    <select className="select" value={form.type_exercice} onChange={(e) => setForm({ ...form, type_exercice: e.target.value })}>
+                      <option value="etablissement_sante">Établissement de santé</option>
+                      <option value="pharmacie">Pharmacie</option>
+                      <option value="laboratoire">Laboratoire</option>
+                      <option value="independant">Indépendant</option>
+                    </select>
+                  </div>
+                  <div className="field">
+                    <label className="label">Ville d'exercice</label>
+                    <input className="input" value={form.ville_exercice} onChange={(e) => setForm({ ...form, ville_exercice: e.target.value })} />
+                  </div>
+                  <div className="field">
+                    <label className="label">Nom établissement</label>
+                    <input className="input" value={form.nom_etablissement} onChange={(e) => setForm({ ...form, nom_etablissement: e.target.value })} />
+                  </div>
+                  <div className="field">
+                    <label className="label">N° autorisation</label>
+                    <input className="input" value={form.numero_autorisation} onChange={(e) => setForm({ ...form, numero_autorisation: e.target.value })} />
+                  </div>
+                  <div className="field">
+                    <label className="label">N° Ordre National</label>
+                    <input className="input" value={form.numero_ordre} onChange={(e) => setForm({ ...form, numero_ordre: e.target.value })} />
+                  </div>
+                  <div className="field">
+                    <label className="label">Email pro</label>
+                    <input className="input" value={form.email_pro} onChange={(e) => setForm({ ...form, email_pro: e.target.value })} />
+                  </div>
+                </div>
+                <PhoneInput
+                  id="user-ligne-pro"
+                  label="Ligne professionnelle +229"
+                  value={form.ligne_pro}
+                  onChange={(ligne_pro) => setForm({ ...form, ligne_pro })}
+                />
+                <div className="field" style={{ marginTop: 12 }}>
                 <label className="label">Hôpitaux rattachés</label>
                 <HospitalPicker
                   hospitals={hospitals}
@@ -250,6 +295,7 @@ export default function Users() {
                   onChangePrincipal={(id) => setForm({ ...form, structure_principale: id })}
                 />
               </div>
+              </>
             ) : null}
             {err && <p style={{ color: "var(--emergency)", marginBottom: 10 }}>{err}</p>}
             <div className="row" style={{ justifyContent: "flex-end", gap: 8 }}>

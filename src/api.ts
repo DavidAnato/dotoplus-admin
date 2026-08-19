@@ -163,6 +163,15 @@ export const api = {
 
   users: () => request("/api/auth/users/").then(list),
   createUser: (b: any) => request("/api/auth/users/", { method: "POST", body: JSON.stringify(b) }),
+  kycList: (params = "") => request(`/api/auth/kyc/${params}`).then(list),
+  kycApprove: (id: number) => request(`/api/auth/kyc/${id}/approve/`, { method: "POST" }),
+  kycReject: (id: number, motif: string) =>
+    request(`/api/auth/kyc/${id}/reject/`, { method: "POST", body: JSON.stringify({ motif }) }),
+  affiliations: (params = "") => request(`/api/auth/affiliations/${params}`).then(list),
+  affiliationApprove: (id: number) =>
+    request(`/api/auth/affiliations/${id}/approve/`, { method: "POST" }),
+  affiliationReject: (id: number, motif: string) =>
+    request(`/api/auth/affiliations/${id}/reject/`, { method: "POST", body: JSON.stringify({ motif }) }),
   hospitals: () => request("/api/auth/hospitals/"),
   updateUser: (id: number, b: any) => request(`/api/auth/users/${id}/`, { method: "PATCH", body: JSON.stringify(b) }),
   async uploadUserPhoto(id: number, file: File) {

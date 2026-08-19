@@ -1,4 +1,4 @@
-/* DotoPlus Admin — SaaS 2025, bleu nuit / bleu clair DOTO+. */
+/* DotoPlus Admin - SaaS 2025, bleu nuit / bleu clair DOTO+. */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap");
 
 :root {
@@ -18,7 +18,7 @@
   --surface: #ffffff;
   --border: #e2e8f0;
   --text: #1f2937;
-  --muted: #64748b;
+  --muted: #475569;
   --radius: 16px;
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 16px rgba(18, 41, 77, 0.06);
   --shadow-lg: 0 20px 48px -12px rgba(18, 41, 77, 0.32);
@@ -106,7 +106,7 @@ button { font-family: inherit; cursor: pointer; }
 .btn:hover { filter: brightness(1.07); box-shadow: 0 6px 16px rgba(62, 130, 149, 0.28); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
-.btn.ghost { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+.btn.ghost { background: transparent; color: #1e3755; border: 1.5px solid #1e3755; }
 .btn.ghost:hover { background: var(--light-blue); box-shadow: none; }
 .btn.danger { background: var(--emergency); }
 .btn.emerald { background: var(--emerald); }
@@ -119,7 +119,9 @@ button { font-family: inherit; cursor: pointer; }
     radial-gradient(700px 400px at 90% 100%, rgba(62, 130, 149, 0.22), transparent 50%),
     #15293f;
 }
-.login-card { width: 400px; max-width: 100%; box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.08); }
+.login-card img { filter: brightness(0); }
+html[data-theme="dark"] .login-card img { filter: brightness(0) invert(1); }
+.sidebar .brand .mark img { filter: none; }
 .login-footnote {
   display: flex; align-items: center; justify-content: center; gap: 6px;
   text-align: center; margin-top: 16px;
@@ -429,7 +431,7 @@ html[data-theme="dark"] .select,
 html[data-theme="dark"] .textarea {
   background: var(--bg); border-color: var(--border); color: var(--text);
 }
-html[data-theme="dark"] .qa:hover { background: rgba(62, 130, 149, 0.14); }
+html[data-theme="dark"] .btn.ghost { color: #f1f5f9; border-color: #94a3b8; background: transparent; }
 html[data-theme="dark"] .kpi:hover { border-color: #3a3a3a; }
 html[data-theme="dark"] .qr-surface { background: #fff; }
 

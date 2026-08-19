@@ -1,4 +1,4 @@
-/** Constantes PIN — alignées sur `core/contracts.py`. OTP 5 chiffres : hors admin. */
+/** Constantes PIN - alignées sur `core/contracts.py`. OTP 5 chiffres : hors admin. */
 
 export const PIN_LEN = 4;
 export const PIN_REGEX = /^\d{4}$/;

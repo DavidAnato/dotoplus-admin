@@ -21,7 +21,7 @@ export default function Audit() {
       <div className="row" style={{ justifyContent: "space-between", marginBottom: 20 }}>
         <div>
           <h1>Journal d&apos;audit</h1>
-          <p className="muted">Qui · quoi · quand · IP — traçabilité complète (loi 2017-20).</p>
+          <p className="muted">Qui · quoi · quand · IP - traçabilité complète (loi 2017-20).</p>
         </div>
         <button className="btn emerald" onClick={exportCsv}>
           Exporter CSV
@@ -49,8 +49,8 @@ export default function Audit() {
                   </td>
                   <td>{l.username}</td>
                   <td>{l.action}</td>
-                  <td className="mono">{l.patient_npi || "—"}</td>
-                  <td className="mono small">{l.ip || "—"}</td>
+                  <td className="mono">{l.patient_npi || "-"}</td>
+                  <td className="mono small">{l.ip || "-"}</td>
                 </tr>
               ))}
             </tbody>

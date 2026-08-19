@@ -67,8 +67,8 @@ export default function Patients() {
                     {p.full_name}
                   </span>
                 </td>
-                <td>{p.date_naissance || "—"}</td>
-                <td><span className="pill red">{p.groupe_sanguin || "—"}</span></td>
+                <td>{p.date_naissance || "-"}</td>
+                <td><span className="pill red">{p.groupe_sanguin || "-"}</span></td>
                 <td>{p.npi_verifie_anip ? <span className="pill green">Vérifié</span> : <span className="pill amber">Non</span>}</td>
               </tr>
             ))}

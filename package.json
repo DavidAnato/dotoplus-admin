@@ -2,7 +2,7 @@
   "name": "dotoplus-admin",
   "private": true,
   "version": "1.0.0",
-  "description": "DotoPlus Admin — back-office DOTO+",
+  "description": "DotoPlus Admin - back-office DOTO+",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5174",

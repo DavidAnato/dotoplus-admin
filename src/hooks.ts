@@ -1,4 +1,4 @@
-/** Hooks admin — SSE sur le même bus que DotoHub / DotoPlus. */
+/** Hooks admin - SSE sur le même bus que DotoHub / DotoPlus. */
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";

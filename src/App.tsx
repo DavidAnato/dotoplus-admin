@@ -16,6 +16,7 @@ import {
   Ban,
   CalendarDays,
   Settings,
+  Fingerprint,
 } from "lucide-react";
 import { useAuth } from "./auth";
 import { useAppStore } from "./store/appStore";
@@ -34,6 +35,7 @@ import NotificationsPage from "./pages/Notifications";
 import Acces from "./pages/Acces";
 import Agenda from "./pages/Agenda";
 import Profil from "./pages/Profil";
+import KycPage from "./pages/Kyc";
 import { Avatar } from "./components/Avatar";
 
 const NAV: { to: string; label: string; icon: LucideIcon }[] = [
@@ -42,6 +44,7 @@ const NAV: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/structures", label: "Structures", icon: Building2 },
   { to: "/patients", label: "Patients", icon: UserRound },
   { to: "/agenda", label: "Agenda / RDV", icon: CalendarDays },
+  { to: "/kyc", label: "File KYC", icon: Fingerprint },
   { to: "/dotocards", label: "DotoCard", icon: IdCard },
   { to: "/acces", label: "Accès & blocages", icon: Ban },
   { to: "/notifications", label: "Notifications", icon: Bell },
@@ -91,7 +94,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {!online && (
           <div className="offline-banner" role="status">
             <WifiOff size={16} strokeWidth={2} aria-hidden />
-            <span>Hors ligne — affichage du dernier tableau de bord en cache. Mutations désactivées.</span>
+            <span>Hors ligne - affichage du dernier tableau de bord en cache. Mutations désactivées.</span>
           </div>
         )}
         <div className="topbar">
@@ -245,6 +248,7 @@ export default function App() {
         <Route path="/structures" element={<Protected><Structures /></Protected>} />
         <Route path="/patients" element={<Protected><Patients /></Protected>} />
         <Route path="/agenda" element={<Protected><Agenda /></Protected>} />
+        <Route path="/kyc" element={<Protected><KycPage /></Protected>} />
         <Route path="/dotocards" element={<Protected><Cards /></Protected>} />
         <Route path="/dodocards" element={<Navigate to="/dotocards" replace />} />
         <Route path="/acces" element={<Protected><Acces /></Protected>} />
