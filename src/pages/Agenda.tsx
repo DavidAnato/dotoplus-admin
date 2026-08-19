@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../api";
 import { useAppStore } from "../store/appStore";
 import { usePatients, useStructures } from "../queries/hooks";
+import { useRowNav } from "../components/EntityDetail";
 
 const STATUTS = [
   { value: "", label: "Tous les statuts" },
@@ -27,6 +28,7 @@ function defaultDateTimeLocal() {
 }
 
 export default function Agenda() {
+  const row = useRowNav();
   const setToast = useAppStore((s) => s.setToast);
   const qc = useQueryClient();
   const { data: structures = [] } = useStructures();
@@ -249,7 +251,7 @@ export default function Agenda() {
             </thead>
             <tbody>
               {sorted.map((a: any) => (
-                <tr key={a.id}>
+                <tr key={a.id} {...row(`/agenda/${a.id}`)}>
                   <td>
                     {a.debut
                       ? new Date(a.debut).toLocaleString("fr-FR", {
@@ -271,7 +273,7 @@ export default function Agenda() {
                     <span className="pill">{a.statut_label || a.statut}</span>
                   </td>
                   <td>
-                    <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
+                    <div className="row" style={{ gap: 6, flexWrap: "wrap" }} onClick={(e) => e.stopPropagation()}>
                       {a.statut !== "termine" && a.statut !== "annule" ? (
                         <>
                           <button

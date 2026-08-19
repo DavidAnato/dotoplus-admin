@@ -1,95 +1,81 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Navigate, NavLink, Route, Routes, useNavigate } from "react-router-dom";
-import type { LucideIcon } from "lucide-react";
-import {
-  LayoutDashboard,
-  Users,
-  Building2,
-  UserRound,
-  IdCard,
-  Shield,
-  LogOut,
-  Moon,
-  Sun,
-  WifiOff,
-  Bell,
-  Ban,
-  CalendarDays,
-  Settings,
-  Fingerprint,
-} from "lucide-react";
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { LogOut, Menu, Moon, Sun, WifiOff } from "lucide-react";
 import { useAuth } from "./auth";
 import { useAppStore } from "./store/appStore";
 import { api } from "./api";
 import { PIN_ERROR, PIN_REGEX } from "./constants";
 import { PinSessionGate } from "./components/PinSessionGate";
+import { Sidebar } from "./components/Sidebar";
 import { useAdminSSE } from "./hooks";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import UsersPage from "./pages/Users";
+import UserDetail from "./pages/UserDetail";
 import Structures from "./pages/Structures";
+import StructureDetail from "./pages/StructureDetail";
 import Patients from "./pages/Patients";
+import PatientDetail from "./pages/PatientDetail";
 import Cards from "./pages/Cards";
+import CardDetail from "./pages/CardDetail";
 import Audit from "./pages/Audit";
+import AuditDetail from "./pages/AuditDetail";
 import NotificationsPage from "./pages/Notifications";
+import NotificationDetail from "./pages/NotificationDetail";
 import Acces from "./pages/Acces";
+import AccesBlockDetail from "./pages/AccesBlockDetail";
+import AccesDemandeDetail from "./pages/AccesDemandeDetail";
 import Agenda from "./pages/Agenda";
+import AgendaDetail from "./pages/AgendaDetail";
 import Profil from "./pages/Profil";
 import KycPage from "./pages/Kyc";
-import { Avatar } from "./components/Avatar";
+import KycDetail from "./pages/KycDetail";
+import Affiliations from "./pages/Affiliations";
+import AffiliationDetail from "./pages/AffiliationDetail";
+import Ordonnances from "./pages/Ordonnances";
+import OrdonnanceDetail from "./pages/OrdonnanceDetail";
+import Examens from "./pages/Examens";
+import ExamenDetail from "./pages/ExamenDetail";
 
-const NAV: { to: string; label: string; icon: LucideIcon }[] = [
-  { to: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { to: "/comptes", label: "Comptes pro", icon: Users },
-  { to: "/structures", label: "Structures", icon: Building2 },
-  { to: "/patients", label: "Patients", icon: UserRound },
-  { to: "/agenda", label: "Agenda / RDV", icon: CalendarDays },
-  { to: "/kyc", label: "File KYC", icon: Fingerprint },
-  { to: "/dotocards", label: "DotoCard", icon: IdCard },
-  { to: "/acces", label: "Accès & blocages", icon: Ban },
-  { to: "/notifications", label: "Notifications", icon: Bell },
-  { to: "/audit", label: "Journal d'audit", icon: Shield },
-  { to: "/parametres", label: "Paramètres", icon: Settings },
-];
+const SIDEBAR_KEY = "dotoadmin_sidebar_collapsed";
+
+function RedirectId({ to }: { to: string }) {
+  const { id } = useParams();
+  return <Navigate to={`${to}/${id}`} replace />;
+}
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const nav = useNavigate();
   const online = useAppStore((s) => s.online);
   const theme = useAppStore((s) => s.theme);
   const toggleTheme = useAppStore((s) => s.toggleTheme);
+  const [collapsed, setCollapsed] = useState(() => localStorage.getItem(SIDEBAR_KEY) === "1");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+
+  const toggleCollapse = () => {
+    setCollapsed((v) => {
+      const next = !v;
+      localStorage.setItem(SIDEBAR_KEY, next ? "1" : "0");
+      return next;
+    });
+  };
 
   return (
-    <div className="shell">
-      <aside className="sidebar">
-        <div className="brand">
-          <div className="mark">
-            <img src="/logo-mark.png" alt="DOTO+" />
-          </div>
-          <div>
-            <b>DotoPlus Admin</b>
-            <span>Back-office · DOTO+</span>
-          </div>
-        </div>
-        <nav className="nav-stack">
-          {NAV.map((l) => {
-            const Icon = l.icon;
-            return (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
-              >
-                <span className="nav-ico">
-                  <Icon size={18} strokeWidth={2} />
-                </span>
-                {l.label}
-              </NavLink>
-            );
-          })}
-        </nav>
-        <div className="foot">DOTO+ · v1.0</div>
-      </aside>
+    <div className={"shell" + (collapsed ? " is-collapsed" : "")}>
+      <button
+        type="button"
+        className={"sidebar-backdrop" + (mobileOpen ? " is-on" : "")}
+        aria-label="Fermer le menu"
+        onClick={closeMobile}
+      />
+      <Sidebar
+        collapsed={collapsed}
+        onToggleCollapse={toggleCollapse}
+        mobileOpen={mobileOpen}
+        onCloseMobile={closeMobile}
+      />
       <div className="main">
         {!online && (
           <div className="offline-banner" role="status">
@@ -98,7 +84,17 @@ function Layout({ children }: { children: React.ReactNode }) {
           </div>
         )}
         <div className="topbar">
-          <strong style={{ color: "var(--navy)" }}>Administration de la plateforme</strong>
+          <div className="row" style={{ gap: 10 }}>
+            <button
+              type="button"
+              className="btn ghost sm icon-btn menu-btn"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Ouvrir le menu"
+            >
+              <Menu size={16} />
+            </button>
+            <strong style={{ color: "var(--navy)" }}>Administration de la plateforme</strong>
+          </div>
           <div className="row">
             <button
               type="button"
@@ -109,11 +105,6 @@ function Layout({ children }: { children: React.ReactNode }) {
             >
               {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
             </button>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontWeight: 600 }}>{user?.full_name}</div>
-              <div className="small muted">{user?.role_label}</div>
-            </div>
-            <Avatar src={(user as any)?.photo_url} name={user?.full_name} size={36} />
             <button
               className="btn ghost sm"
               onClick={() => {
@@ -245,15 +236,33 @@ export default function App() {
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
         <Route path="/comptes" element={<Protected><UsersPage /></Protected>} />
+        <Route path="/comptes/:id" element={<Protected><UserDetail /></Protected>} />
+        <Route path="/users" element={<Navigate to="/comptes" replace />} />
+        <Route path="/users/:id" element={<Protected><RedirectId to="/comptes" /></Protected>} />
         <Route path="/structures" element={<Protected><Structures /></Protected>} />
+        <Route path="/structures/:id" element={<Protected><StructureDetail /></Protected>} />
         <Route path="/patients" element={<Protected><Patients /></Protected>} />
+        <Route path="/patients/:id" element={<Protected><PatientDetail /></Protected>} />
         <Route path="/agenda" element={<Protected><Agenda /></Protected>} />
+        <Route path="/agenda/:id" element={<Protected><AgendaDetail /></Protected>} />
         <Route path="/kyc" element={<Protected><KycPage /></Protected>} />
+        <Route path="/kyc/:id" element={<Protected><KycDetail /></Protected>} />
+        <Route path="/affiliations" element={<Protected><Affiliations /></Protected>} />
+        <Route path="/affiliations/:id" element={<Protected><AffiliationDetail /></Protected>} />
+        <Route path="/ordonnances" element={<Protected><Ordonnances /></Protected>} />
+        <Route path="/ordonnances/:id" element={<Protected><OrdonnanceDetail /></Protected>} />
+        <Route path="/examens" element={<Protected><Examens /></Protected>} />
+        <Route path="/examens/:id" element={<Protected><ExamenDetail /></Protected>} />
         <Route path="/dotocards" element={<Protected><Cards /></Protected>} />
+        <Route path="/dotocards/:id" element={<Protected><CardDetail /></Protected>} />
         <Route path="/dodocards" element={<Navigate to="/dotocards" replace />} />
         <Route path="/acces" element={<Protected><Acces /></Protected>} />
+        <Route path="/acces/blocs/:id" element={<Protected><AccesBlockDetail /></Protected>} />
+        <Route path="/acces/demandes/:id" element={<Protected><AccesDemandeDetail /></Protected>} />
         <Route path="/notifications" element={<Protected><NotificationsPage /></Protected>} />
+        <Route path="/notifications/:id" element={<Protected><NotificationDetail /></Protected>} />
         <Route path="/audit" element={<Protected><Audit /></Protected>} />
+        <Route path="/audit/:id" element={<Protected><AuditDetail /></Protected>} />
         <Route path="/parametres" element={<Protected><Profil /></Protected>} />
         <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
       </Routes>

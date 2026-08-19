@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useCreateStructure, useStructures } from "../queries/hooks";
 import { PhoneInput } from "../components/PhoneInput";
+import { useRowNav } from "../components/EntityDetail";
 
 const TYPES = ["hopital", "clinique", "polyclinique", "centre", "pharmacie", "laboratoire"];
 const empty = { nom: "", type: "clinique", localisation: "", code_structure: "", telephone: "" };
 
 export default function Structures() {
+  const row = useRowNav();
   const { data: items = [] } = useStructures();
   const createStructure = useCreateStructure();
   const [modal, setModal] = useState(false);
@@ -47,7 +49,7 @@ export default function Structures() {
           </thead>
           <tbody>
             {items.map((s: any) => (
-              <tr key={s.id}>
+              <tr key={s.id} {...row(`/structures/${s.id}`)}>
                 <td style={{ fontWeight: 600 }}>{s.nom}</td>
                 <td>{s.type_label}</td>
                 <td>{s.localisation || "-"}</td>

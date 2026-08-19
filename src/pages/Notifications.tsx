@@ -2,7 +2,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-import { notificationPath } from "../notifRoutes";
 
 export default function NotificationsPage() {
   const nav = useNavigate();
@@ -41,10 +40,11 @@ export default function NotificationsPage() {
               {notifs.slice(0, 30).map((n: any) => (
                 <li
                   key={n.id}
-                  style={{ padding: "10px 0", borderBottom: "1px solid var(--border)", cursor: "pointer" }}
+                  className="clickable-row"
+                  style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}
                   onClick={() => {
                     if (!n.read_at && !n.is_read) void api.markNotifRead(n.id);
-                    nav(notificationPath(n));
+                    nav(`/notifications/${n.id}`);
                   }}
                 >
                   <strong style={{ fontSize: 13 }}>{n.title}</strong>
@@ -77,7 +77,11 @@ export default function NotificationsPage() {
               </thead>
               <tbody>
                 {access.slice(0, 40).map((r: any) => (
-                  <tr key={r.id}>
+                  <tr
+                    key={r.id}
+                    className="clickable-row"
+                    onClick={() => nav(`/acces/demandes/${r.id}`)}
+                  >
                     <td className="mono">{r.id}</td>
                     <td>{r.patient_name || r.patient_npi}</td>
                     <td>

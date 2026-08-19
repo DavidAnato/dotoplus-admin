@@ -1,4 +1,5 @@
 import { api } from "../api";
+import { useNavigate } from "react-router-dom";
 import {
   useAdminCards,
   useReissueCard,
@@ -6,6 +7,7 @@ import {
 } from "../queries/hooks";
 
 export default function Cards() {
+  const nav = useNavigate();
   const { data: cards = [], isLoading } = useAdminCards();
   const revoke = useRevokeCard();
   const reissue = useReissueCard();
@@ -29,7 +31,19 @@ export default function Cards() {
       </p>
       <div className="grid cols-3">
         {cards.map((c: any) => (
-          <div className="card" key={c.id}>
+          <div
+            className="card clickable-row"
+            key={c.id}
+            role="link"
+            tabIndex={0}
+            onClick={() => nav(`/dotocards/${c.id}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                nav(`/dotocards/${c.id}`);
+              }
+            }}
+          >
             <div className="row" style={{ justifyContent: "space-between", marginBottom: 12 }}>
               <strong>{c.patient_detail.full_name}</strong>
               <span className={"pill " + (c.is_active ? "green" : "red")}>{c.statut_label}</span>
@@ -60,7 +74,11 @@ export default function Cards() {
                 {c.lost_at ? ` · perte ${new Date(c.lost_at).toLocaleString("fr-FR")}` : ""}
               </div>
             ) : null}
-            <div className="row" style={{ gap: 8, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <div
+              className="row"
+              style={{ gap: 8, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <button
                 className="btn ghost sm"
                 type="button"

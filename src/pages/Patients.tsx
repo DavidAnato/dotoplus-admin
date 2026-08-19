@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCreatePatient, useCreateCard, usePatients } from "../queries/hooks";
 import { Avatar } from "../components/Avatar";
 import { PhoneInput } from "../components/PhoneInput";
+import { useRowNav } from "../components/EntityDetail";
 
 const BLOOD = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "Non identifié"];
 const ELECTRO = ["AA", "AS", "SS", "AC", "SC", "CC", "Non identifié"];
@@ -13,6 +14,7 @@ const empty = {
 };
 
 export default function Patients() {
+  const row = useRowNav();
   const { data: items = [] } = usePatients();
   const createPatient = useCreatePatient();
   const createCard = useCreateCard();
@@ -59,7 +61,7 @@ export default function Patients() {
           </thead>
           <tbody>
             {items.map((p: any) => (
-              <tr key={p.id}>
+              <tr key={p.id} {...row(`/patients/${p.id}`)}>
                 <td className="mono">{p.npi}</td>
                 <td style={{ fontWeight: 600 }}>
                   <span className="row" style={{ gap: 8, alignItems: "center" }}>

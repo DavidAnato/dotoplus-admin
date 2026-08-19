@@ -1,7 +1,9 @@
 import { api } from "../api";
 import { useAudit } from "../queries/hooks";
+import { useRowNav } from "../components/EntityDetail";
 
 export default function Audit() {
+  const row = useRowNav();
   const { data: logs = [], isLoading } = useAudit();
 
   const exportCsv = async () => {
@@ -43,7 +45,7 @@ export default function Audit() {
             </thead>
             <tbody>
               {logs.map((l: any) => (
-                <tr key={l.id}>
+                <tr key={l.id} {...row(`/audit/${l.id}`)}>
                   <td className="mono small">
                     {new Date(l.timestamp).toLocaleString("fr-FR")}
                   </td>

@@ -3,8 +3,10 @@ import { Ban, ShieldOff } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../api";
 import { useAppStore } from "../store/appStore";
+import { useNavigate } from "react-router-dom";
 
 export default function Acces() {
+  const nav = useNavigate();
   const setToast = useAppStore((s) => s.setToast);
   const qc = useQueryClient();
   const { data: blocks = [], isLoading } = useQuery({
@@ -106,7 +108,19 @@ export default function Acces() {
       ) : (
         <div className="grid" style={{ gap: 8, marginBottom: 24 }}>
           {blocks.map((b: any) => (
-            <div className="card" key={b.id}>
+            <div
+              className="card clickable-row"
+              key={b.id}
+              role="link"
+              tabIndex={0}
+              onClick={() => nav(`/acces/blocs/${b.id}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  nav(`/acces/blocs/${b.id}`);
+                }
+              }}
+            >
               <div className="row" style={{ justifyContent: "space-between" }}>
                 <div>
                   <strong>
@@ -116,7 +130,8 @@ export default function Acces() {
                 </div>
                 <button
                   className="btn ghost sm"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (!window.confirm("Lever ce blocage ?")) return;
                     liftMut.mutate(b.id);
                   }}
@@ -134,7 +149,19 @@ export default function Acces() {
       </h3>
       <div className="grid" style={{ gap: 8 }}>
         {reqs.slice(0, 30).map((r: any) => (
-          <div className="card" key={r.id}>
+          <div
+            className="card clickable-row"
+            key={r.id}
+            role="link"
+            tabIndex={0}
+            onClick={() => nav(`/acces/demandes/${r.id}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                nav(`/acces/demandes/${r.id}`);
+              }
+            }}
+          >
             <div className="row" style={{ justifyContent: "space-between" }}>
               <div>
                 <strong>
@@ -149,7 +176,8 @@ export default function Acces() {
                 r.status === "pending") && (
                 <button
                   className="btn ghost sm"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (!window.confirm(`Force revoke #${r.id} ?`)) return;
                     revokeMut.mutate(r.id);
                   }}

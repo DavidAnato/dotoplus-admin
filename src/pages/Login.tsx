@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { useAuth } from "../auth";
+import { BrandMark, BrandWordmark } from "../components/BrandMark";
 
 export default function Login() {
   const { login } = useAuth();
@@ -29,16 +30,12 @@ export default function Login() {
     <div className="login-screen">
       <div className="login-card card">
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <img
-            src="/logo-mark.png"
-            alt="DOTO+"
-            style={{ width: 64, height: 64, borderRadius: 16, objectFit: "contain", margin: "0 auto 12px", display: "block" }}
-          />
-          <img
-            src="/logo-doto.png"
-            alt="DOTO+"
-            style={{ height: 28, width: "auto", maxWidth: "100%", margin: "0 auto 8px", display: "block" }}
-          />
+          <div className="login-mark">
+            <BrandMark size={64} />
+          </div>
+          <div style={{ color: "var(--navy)", display: "flex", justifyContent: "center", marginBottom: 8 }}>
+            <BrandWordmark />
+          </div>
           <h1 style={{ fontSize: 20, marginTop: 4 }}>DotoPlus Admin</h1>
           <p className="muted">Back-office · DOTO+</p>
         </div>

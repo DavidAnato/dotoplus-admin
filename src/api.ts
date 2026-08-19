@@ -162,12 +162,15 @@ export const api = {
   dashboard: () => request("/api/admin/dashboard/"),
 
   users: () => request("/api/auth/users/").then(list),
+  user: (id: number) => request(`/api/auth/users/${id}/`),
   createUser: (b: any) => request("/api/auth/users/", { method: "POST", body: JSON.stringify(b) }),
   kycList: (params = "") => request(`/api/auth/kyc/${params}`).then(list),
+  kyc: (id: number) => request(`/api/auth/kyc/${id}/`),
   kycApprove: (id: number) => request(`/api/auth/kyc/${id}/approve/`, { method: "POST" }),
   kycReject: (id: number, motif: string) =>
     request(`/api/auth/kyc/${id}/reject/`, { method: "POST", body: JSON.stringify({ motif }) }),
   affiliations: (params = "") => request(`/api/auth/affiliations/${params}`).then(list),
+  affiliation: (id: number) => request(`/api/auth/affiliations/${id}/`),
   affiliationApprove: (id: number) =>
     request(`/api/auth/affiliations/${id}/approve/`, { method: "POST" }),
   affiliationReject: (id: number, motif: string) =>
@@ -194,10 +197,12 @@ export const api = {
   unlockUser: (id: number) => request(`/api/auth/users/${id}/unlock/`, { method: "POST" }),
 
   structures: () => request("/api/auth/structures/").then(list),
+  structure: (id: number) => request(`/api/auth/structures/${id}/`),
   createStructure: (b: any) => request("/api/auth/structures/", { method: "POST", body: JSON.stringify(b) }),
   updateStructure: (id: number, b: any) => request(`/api/auth/structures/${id}/`, { method: "PATCH", body: JSON.stringify(b) }),
 
   patients: () => request("/api/patients/").then(list),
+  patient: (id: number) => request(`/api/patients/${id}/`),
   patientSuggestions: (params?: { q?: string; limit?: number }) => {
     const q = new URLSearchParams();
     if (params?.q) q.set("q", params.q);
@@ -208,6 +213,7 @@ export const api = {
   createPatient: (b: any) => request("/api/patients/", { method: "POST", body: JSON.stringify(b) }),
 
   dodocards: () => request("/api/dodocards/").then(list),
+  dodocard: (id: number) => request(`/api/dodocards/${id}/`),
   createCard: (patient: number) => request("/api/dodocards/", { method: "POST", body: JSON.stringify({ patient }) }),
   revokeCard: (id: number) => request(`/api/dodocards/${id}/revoke/`, { method: "POST", body: JSON.stringify({ motif: "perte" }) }),
   reissueCard: (id: number) => request(`/api/dodocards/${id}/reissue/`, { method: "POST", body: JSON.stringify({ motif: "reemission_admin" }) }),
@@ -231,12 +237,14 @@ export const api = {
   auditExportUrl: `${API_URL}/api/audit/export/`,
 
   notifications: () => request("/api/notifications/").then(list),
+  notification: (id: number) => request(`/api/notifications/${id}/`),
   unreadCount: () => request("/api/notifications/unread_count/"),
   markNotifRead: (id: number) =>
     request(`/api/notifications/${id}/read/`, { method: "POST" }),
   markAllNotifsRead: () =>
     request("/api/notifications/read_all/", { method: "POST" }),
   accessRequests: () => request("/api/access-requests/"),
+  accessRequest: (id: number) => request(`/api/access-requests/${id}/`),
   forceRevokeAccess: (id: number) =>
     request(`/api/access-requests/${id}/force-revoke/`, { method: "POST" }),
   accessBlocks: (params = "") => request(`/api/access-blocks/${params ? `?${params}` : ""}`).then(list),
@@ -262,6 +270,11 @@ export const api = {
     const qs = q.toString();
     return request(`/api/appointments/${qs ? `?${qs}` : ""}`).then(list);
   },
+  appointment: (id: number) => request(`/api/appointments/${id}/`),
+  ordonnances: (params = "") => request(`/api/ordonnances/${params}`).then(list),
+  ordonnance: (id: number) => request(`/api/ordonnances/${id}/`),
+  examens: (params = "") => request(`/api/examens/${params}`).then(list),
+  examen: (id: number) => request(`/api/examens/${id}/`),
   createAppointment: (b: any) =>
     request("/api/appointments/", { method: "POST", body: JSON.stringify(b) }),
   updateAppointment: (id: number, b: any) =>

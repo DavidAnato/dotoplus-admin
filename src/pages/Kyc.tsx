@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import { useRowNav } from "../components/EntityDetail";
 
 const STATUS: Record<string, string> = {
   brouillon: "Brouillon",
@@ -9,6 +10,7 @@ const STATUS: Record<string, string> = {
 };
 
 export default function KycPage() {
+  const row = useRowNav();
   const [items, setItems] = useState<any[]>([]);
   const [filter, setFilter] = useState("en_attente");
   const [err, setErr] = useState("");
@@ -75,7 +77,11 @@ export default function KycPage() {
       {err ? <p style={{ color: "var(--emergency)", marginBottom: 12 }}>{err}</p> : null}
       <div className="list-stack">
         {items.map((k) => (
-          <div key={k.id} className="list-item" style={{ alignItems: "flex-start" }}>
+          <div
+            key={k.id}
+            style={{ alignItems: "flex-start" }}
+            {...row(`/kyc/${k.id}`, "list-item")}
+          >
             <div>
               <strong>
                 {k.prenom} {k.nom}
@@ -100,7 +106,7 @@ export default function KycPage() {
               </div>
             </div>
             {k.statut === "en_attente" || k.statut === "brouillon" ? (
-              <div style={{ minWidth: 220 }}>
+              <div style={{ minWidth: 220 }} onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
                 <input
                   className="input"
                   placeholder="Motif si refus"

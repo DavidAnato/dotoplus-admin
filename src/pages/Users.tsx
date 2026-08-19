@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   useCreateUser,
   useToggleUser,
@@ -9,6 +10,7 @@ import { Avatar } from "../components/Avatar";
 import { api } from "../api";
 import { PhoneInput } from "../components/PhoneInput";
 import { HospitalPicker } from "../components/HospitalPicker";
+import { useRowNav } from "../components/EntityDetail";
 
 const ROLES = [
   { v: "medecin", l: "Médecin" },
@@ -49,15 +51,15 @@ const empty = {
 };
 
 export default function Users() {
-  const { data: users = [], refetch } = useUsers();
+  const nav = useNavigate();
+  const row = useRowNav();
+  const { data: users = [] } = useUsers();
   const createUser = useCreateUser();
   const toggleUser = useToggleUser();
   const unlockUser = useUnlockUser();
   const [modal, setModal] = useState(false);
-  const [detail, setDetail] = useState<any | null>(null);
   const [form, setForm] = useState<any>(empty);
   const [err, setErr] = useState("");
-  const [photoBusy, setPhotoBusy] = useState(false);
   const [hospitals, setHospitals] = useState<any[]>([]);
 
   useEffect(() => {
@@ -96,21 +98,6 @@ export default function Users() {
     }
   };
 
-  const uploadForUser = async (userId: number, file: File | null) => {
-    if (!file) return;
-    setPhotoBusy(true);
-    setErr("");
-    try {
-      const updated = await api.uploadUserPhoto(userId, file);
-      await refetch();
-      setDetail(updated);
-    } catch (e: any) {
-      setErr(e.message || "Upload photo impossible");
-    } finally {
-      setPhotoBusy(false);
-    }
-  };
-
   return (
     <div>
       <div className="row" style={{ justifyContent: "space-between", marginBottom: 20 }}>
@@ -135,7 +122,7 @@ export default function Users() {
           </thead>
           <tbody>
             {users.map((u: any) => (
-              <tr key={u.id}>
+              <tr key={u.id} {...row(`/comptes/${u.id}`)}>
                 <td>
                   <Avatar src={u.photo_url} name={u.full_name || u.username} size={32} />
                 </td>
@@ -152,9 +139,9 @@ export default function Users() {
                   )}
                 </td>
                 <td>
-                  <div className="row" style={{ gap: 6 }}>
-                    <button className="btn ghost sm" onClick={() => setDetail(u)}>
-                      Détail
+                  <div className="row" style={{ gap: 6 }} onClick={(e) => e.stopPropagation()}>
+                    <button className="btn ghost sm" onClick={() => nav(`/comptes/${u.id}`)}>
+                      Fiche
                     </button>
                     <button
                       className="btn ghost sm"
@@ -180,33 +167,6 @@ export default function Users() {
           </tbody>
         </table>
       </div>
-
-      {detail && (
-        <div className="modal-bg" onClick={() => setDetail(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ marginBottom: 16 }}>Compte - {detail.username}</h2>
-            <div className="row" style={{ gap: 16, marginBottom: 16, alignItems: "center" }}>
-              <Avatar src={detail.photo_url} name={detail.full_name || detail.username} size={72} />
-              <div>
-                <div style={{ fontWeight: 700 }}>{detail.full_name || "-"}</div>
-                <div className="muted">{detail.role_label}</div>
-                <div className="muted small">{detail.email || detail.telephone || ""}</div>
-                <label className="btn ghost sm" style={{ marginTop: 8, cursor: "pointer" }}>
-                  {photoBusy ? "…" : "Définir photo d'identité"}
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    hidden
-                    onChange={(e) => void uploadForUser(detail.id, e.target.files?.[0] || null)}
-                  />
-                </label>
-              </div>
-            </div>
-            {err ? <p style={{ color: "var(--emergency)" }}>{err}</p> : null}
-            <button className="btn ghost" onClick={() => setDetail(null)}>Fermer</button>
-          </div>
-        </div>
-      )}
 
       {modal && (
         <div className="modal-bg" onClick={() => setModal(false)}>

@@ -276,7 +276,9 @@ export default function Dashboard() {
         <Qa to="/dotocards" icon={IdCard}>Émettre une DotoCard</Qa>
         <Qa to="/audit" icon={Shield}>Journal d&apos;audit</Qa>
         <Qa to="/structures" icon={Building2}>Structures</Qa>
-        <Qa to="/patients" icon={UserRound}>Patients</Qa>
+        <Qa to="/kyc" icon={Shield}>File KYC</Qa>
+        <Qa to="/ordonnances" icon={ClipboardList}>Ordonnances</Qa>
+        <Qa to="/examens" icon={ClipboardList}>Examens</Qa>
       </section>
 
       <div className="dash-grid">
