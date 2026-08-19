@@ -18,7 +18,7 @@ export function BrandMark({ size = 40 }: { size?: number }) {
         fontFamily="DM Sans, Segoe UI, Arial, sans-serif"
         fontSize="26"
         fontWeight="800"
-        fill="#30B9C1"
+        fill="#2BB3BC"
       >
         D+
       </text>
@@ -54,7 +54,7 @@ export function BrandWordmark({
         fontFamily="DM Sans, Segoe UI, Arial, sans-serif"
         fontSize="22"
         fontWeight="800"
-        fill="#30B9C1"
+        fill="#2BB3BC"
       >
         +
       </text>

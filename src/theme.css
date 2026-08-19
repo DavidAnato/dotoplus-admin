@@ -6,9 +6,11 @@
   --navy-700: #1e3755;
   --blue: #3e8295;
   --emerald: #3e8295;
-  --teal: #30B9C1;
-  --accent: #30B9C1;
+  --teal: #2BB3BC;
+  --accent: #2BB3BC;
   --accent-ink: #073033;
+  --auth-teal: #2bb3bc;
+  --auth-teal-ink: #073033;
   --green: #085041;
   --light-green: #e1f5ee;
   --light-blue: #e8f2f5;  --red: #791f1f;
@@ -245,7 +247,7 @@ button { font-family: inherit; cursor: pointer; }
   min-height: 100vh; display: grid; place-items: center; padding: 20px;
   background:
     radial-gradient(900px 480px at 18% -8%, #1e3755 0%, transparent 55%),
-    radial-gradient(700px 400px at 90% 100%, rgba(62, 130, 149, 0.22), transparent 50%),
+    radial-gradient(700px 400px at 90% 100%, rgba(43, 179, 188, 0.22), transparent 50%),
     #15293f;
 }
 .login-card img { filter: none; }
@@ -257,11 +259,168 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center; margin-top: 16px;
 }
 
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(280px, 1.05fr) minmax(360px, 1fr);
+  background: var(--surface);
+}
+.auth-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(720px 420px at 12% -8%, rgba(43, 179, 188, 0.28), transparent 58%),
+    radial-gradient(520px 360px at 92% 108%, rgba(43, 179, 188, 0.16), transparent 52%),
+    linear-gradient(165deg, #0f2233 0%, #1e3755 52%, #16324a 100%);
+  color: #f7fcfd;
+  padding: 48px 44px 40px;
+  display: flex;
+  align-items: center;
+}
+.auth-hero__glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  right: -60px;
+  top: 18%;
+  background: rgba(43, 179, 188, 0.22);
+  filter: blur(8px);
+}
+.auth-hero__ring {
+  position: absolute;
+  border: 1px solid rgba(247, 252, 253, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.auth-hero__ring--lg { width: 340px; height: 340px; right: -80px; bottom: -40px; }
+.auth-hero__ring--md { width: 210px; height: 210px; right: -20px; bottom: 24px; }
+.auth-hero__inner { position: relative; z-index: 1; max-width: 440px; }
+.auth-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.auth-hero__wordmark { color: #fff; }
+.auth-hero__kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--auth-teal);
+  margin-bottom: 12px;
+}
+.auth-hero__title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.auth-hero__lede {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: rgba(247, 252, 253, 0.78);
+  margin-bottom: 28px;
+}
+.auth-card-mock {
+  position: relative;
+  width: min(280px, 100%);
+  height: 164px;
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #1a3a56 0%, #132438 100%);
+  border: 1px solid rgba(43, 179, 188, 0.35);
+  box-shadow: 0 18px 40px rgba(8, 18, 30, 0.35);
+  overflow: hidden;
+}
+.auth-card-mock__stripe {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--auth-teal);
+}
+.auth-card-mock__chip {
+  display: block; width: 34px; height: 24px; border-radius: 6px;
+  background: linear-gradient(135deg, #d7e4ea, #8fb6c0); margin-bottom: 28px;
+}
+.auth-card-mock__brand {
+  display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.16em;
+  color: var(--auth-teal); margin-bottom: 6px;
+}
+.auth-card-mock__name { display: block; font-size: 1.05rem; font-weight: 800; color: #fff; }
+.auth-card-mock__meta { display: block; margin-top: 6px; font-size: 12px; color: rgba(247, 252, 253, 0.62); }
+.auth-hero__points { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.auth-hero__points li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14px; line-height: 1.45; color: rgba(247, 252, 253, 0.78);
+}
+.auth-hero__points strong { color: #fff; font-weight: 700; }
+.auth-hero__dot {
+  width: 8px; height: 8px; margin-top: 6px; border-radius: 50%;
+  background: var(--auth-teal); flex-shrink: 0;
+}
+.auth-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: var(--surface);
+}
+.auth-panel__inner { width: min(440px, 100%); }
+.auth-head { margin-bottom: 28px; }
+.auth-head h1 { font-size: 1.85rem; letter-spacing: -0.04em; margin: 4px 0 8px; }
+.auth-kicker {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--auth-teal);
+}
+.auth-panel .label {
+  text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 650;
+  color: var(--navy); margin-bottom: 8px;
+}
+.auth-panel .input,
+.auth-panel .select {
+  border-radius: 12px; padding: 13px 14px; font-size: 15px;
+}
+.auth-panel .input:focus,
+.auth-panel .select:focus {
+  border-color: var(--auth-teal);
+  box-shadow: 0 0 0 3px rgba(43, 179, 188, 0.22);
+}
+.auth-panel .field { margin-bottom: 18px; }
+.auth-submit {
+  width: 100%; min-height: 48px; border-radius: 12px; font-size: 15px;
+  background: var(--navy); color: #fff;
+}
+.auth-error {
+  color: var(--emergency); font-weight: 600; margin: 0 0 14px; font-size: 13.5px;
+}
+.auth-foot {
+  text-align: center; margin-top: 18px; font-size: 12px; color: var(--muted); line-height: 1.5;
+}
+
+html[data-theme="dark"] .auth-panel { background: var(--bg); }
+html[data-theme="dark"] .auth-submit { background: var(--auth-teal); color: var(--auth-teal-ink); }
+html[data-theme="dark"] .auth-panel .label { color: var(--text); }
+
+@media (max-width: 900px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  .auth-hero { min-height: 200px; padding: 28px 24px 24px; }
+  .auth-hero__title { font-size: 1.5rem; }
+  .auth-hero__lede { margin-bottom: 0; }
+  .auth-hero__points, .auth-card-mock { display: none; }
+  .auth-hero__brand { margin-bottom: 16px; }
+  .auth-panel { padding: 32px 20px 40px; align-items: flex-start; }
+}
+
 .input, .select, .textarea {
   width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px;
   font-size: 14px; background: var(--surface); color: var(--text); outline: none; transition: border-color .15s;
 }
-.input:focus, .select:focus, .textarea:focus { border-color: var(--blue); }
+.input:focus, .select:focus, .textarea:focus {
+  border-color: var(--auth-teal);
+  box-shadow: 0 0 0 3px rgba(43, 179, 188, 0.22);
+}
 .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--navy); margin-bottom: 6px; display: block; }
 .field { margin-bottom: 16px; }
 
@@ -728,32 +887,35 @@ html[data-theme="dark"] .clickable-row:hover { background: rgba(62, 130, 149, 0.
   justify-content: center;
   padding: 24px;
   background:
-    radial-gradient(700px 400px at 50% 0%, rgba(62, 130, 149, 0.18), transparent 55%),
+    radial-gradient(700px 400px at 50% 0%, rgba(43, 179, 188, 0.22), transparent 55%),
     rgba(10, 10, 12, 0.92);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 }
 .pin-gate__card {
-  width: min(400px, 100%);
+  width: min(420px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 36px 28px 32px;
+  border-radius: 20px;
+  padding: 40px 32px 32px;
   text-align: center;
   box-shadow: var(--shadow-lg);
 }
 .pin-gate__icon {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 18px;
-  border-radius: 18px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--light-blue);
-  color: var(--blue);
+  background: rgba(43, 179, 188, 0.12);
+  color: var(--auth-teal);
 }
 .pin-gate__card h2 {
   font-size: 1.35rem;
+  margin-bottom: 8px;
+}
+.pin-gate__card .auth-kicker {
   margin-bottom: 8px;
 }
 .pin-gate__card > .muted {
@@ -799,9 +961,9 @@ html[data-theme="dark"] .clickable-row:hover { background: rgba(62, 130, 149, 0.
 }
 .pin-box.is-filled { border-color: var(--navy); }
 .pin-box.is-active {
-  border-color: var(--blue);
+  border-color: var(--auth-teal);
   border-width: 2px;
-  box-shadow: 0 0 0 3px rgba(62, 130, 149, 0.2);
+  box-shadow: 0 0 0 3px rgba(43, 179, 188, 0.22);
 }
 .pin-wrap--loading .pin-boxes {
   opacity: 0.72;

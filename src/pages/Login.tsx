@@ -1,8 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock } from "lucide-react";
 import { useAuth } from "../auth";
-import { BrandMark, BrandWordmark } from "../components/BrandMark";
+import { AuthShell } from "../components/AuthShell";
 
 export default function Login() {
   const { login } = useAuth();
@@ -27,37 +26,58 @@ export default function Login() {
   };
 
   return (
-    <div className="login-screen">
-      <div className="login-card card">
-        <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <div className="login-mark">
-            <BrandMark size={64} />
-          </div>
-          <div style={{ color: "var(--navy)", display: "flex", justifyContent: "center", marginBottom: 8 }}>
-            <BrandWordmark />
-          </div>
-          <h1 style={{ fontSize: 20, marginTop: 4 }}>DotoPlus Admin</h1>
-          <p className="muted">Back-office · DOTO+</p>
-        </div>
-        <form onSubmit={submit}>
-          <div className="field">
-            <label className="label">Identifiant administrateur</label>
-            <input className="input" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="admin" autoFocus />
-          </div>
-          <div className="field">
-            <label className="label">Mot de passe</label>
-            <input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
-          </div>
-          {error && <p style={{ color: "var(--emergency)", marginBottom: 12, fontWeight: 600 }}>{error}</p>}
-          <button className="btn" style={{ width: "100%" }} disabled={busy}>
-            {busy ? "Connexion…" : "Se connecter"}
-          </button>
-        </form>
-        <p className="login-footnote small muted">
-          <Lock size={13} strokeWidth={2} aria-hidden />
-          Réservé aux administrateurs · <span className="mono">admin</span> / <span className="mono">AdminDoto2026!</span>
-        </p>
+    <AuthShell
+      kicker="Administration"
+      headline="Le cockpit DOTO+."
+      lede="KYC, affiliations et audit dans un back-office sobre."
+      points={[
+        { title: "Validation. ", text: "Comptes, pièces et rattachements." },
+        { title: "Pilotage. ", text: "Patients, structures et cartes." },
+        { title: "Traçabilité. ", text: "Journal d’accès et de session." },
+      ]}
+    >
+      <div className="auth-head">
+        <p className="auth-kicker">DotoPlus Admin</p>
+        <h1>Connexion</h1>
+        <p className="muted">Réservé aux administrateurs de la plateforme.</p>
       </div>
-    </div>
+      <form onSubmit={submit}>
+        <div className="field">
+          <label className="label" htmlFor="admin-login-user">
+            Identifiant
+          </label>
+          <input
+            id="admin-login-user"
+            className="input"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="admin"
+            autoComplete="username"
+            autoFocus
+          />
+        </div>
+        <div className="field">
+          <label className="label" htmlFor="admin-login-pass">
+            Mot de passe
+          </label>
+          <input
+            id="admin-login-pass"
+            className="input"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            autoComplete="current-password"
+          />
+        </div>
+        {error ? <p className="auth-error">{error}</p> : null}
+        <button className="btn auth-submit" disabled={busy}>
+          {busy ? "Connexion…" : "Se connecter"}
+        </button>
+      </form>
+      <p className="auth-foot">
+        Démo <span className="mono">admin</span> / <span className="mono">AdminDoto2026!</span>
+      </p>
+    </AuthShell>
   );
 }
