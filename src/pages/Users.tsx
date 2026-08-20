@@ -8,6 +8,7 @@ import {
 } from "../queries/hooks";
 import { Avatar } from "../components/Avatar";
 import { api } from "../api";
+import { PasswordInput } from "../components/PasswordInput";
 import { PhoneInput } from "../components/PhoneInput";
 import { HospitalPicker } from "../components/HospitalPicker";
 import { useRowNav } from "../components/EntityDetail";
@@ -203,8 +204,13 @@ export default function Users() {
               />
             </div>
             <div className="field">
-              <label className="label">Mot de passe</label>
-              <input className="input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+              <label className="label" htmlFor="user-pass">Mot de passe</label>
+              <PasswordInput
+                id="user-pass"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                autoComplete="new-password"
+              />
             </div>
             {NEED_HOSPITALS.has(form.role) ? (
               <>
