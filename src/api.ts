@@ -2,7 +2,7 @@ import { PIN_ERROR, PIN_REGEX } from "./constants";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  (import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://doto-backend-71tk.onrender.com");
+  (import.meta.env.DEV ? "http://127.0.0.1:8001" : "https://doto-anato.loca.lt");
 
 const store = {
   get access() {
